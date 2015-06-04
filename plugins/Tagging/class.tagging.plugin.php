@@ -840,6 +840,20 @@ class TaggingPlugin extends Gdn_Plugin {
       $Sender->AddModule($TagModule);
    }
 
+   /**
+   * Triggers AfterSaveDiscussion after AfterRestore event.
+   */
+   public function LogModel_AfterRestore_Handler($Sender) {
+      $this->EventArguments['FormPostValues'] =  GetValueR('Log.Data', $Sender->EventArguments);
+      $this->EventArguments['DiscussionID'] =  GetValue('InsertID', $Sender->EventArguments);
+      $this->EventArguments['Fields']['CategoryID'] = GetValueR('Log.CategoryID', $Sender->EventArguments);
+
+      $RecordType = GetValueR('Log.RecordType', $Sender->EventArguments);
+      if ($RecordType == 'Discussion') {
+        $this->DiscussionModel_AfterSaveDiscussion_Handler($this);
+      }
+   }
+
 }
 
 if (!function_exists('TagUrl')):
