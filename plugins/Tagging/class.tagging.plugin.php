@@ -193,14 +193,15 @@ class TaggingPlugin extends Gdn_Plugin {
 
       $Sender->SetData('Category', FALSE, TRUE);
 
-      $Sender->AnnounceData = FALSE;
-		$Sender->SetData('Announcements', array(), TRUE);
-
       $DiscussionModel = new DiscussionModel();
 
       $TagModel->SetTagSql($DiscussionModel->SQL, $Tag, $Limit, $Offset, $Sender->Request->Get('op', 'or'));
 
-      $Sender->DiscussionData = $DiscussionModel->Get($Offset, $Limit, array('Announce' => 'all'));
+      // Get Announcements
+      $Sender->AnnounceData = $Offset == 0 ? $DiscussionModel->GetAnnouncements('') : FALSE;
+      $Sender->SetData('Announcements', $Sender->AnnounceData !== FALSE ? $Sender->AnnounceData : array(), TRUE);
+
+      $Sender->DiscussionData = $DiscussionModel->Get($Offset, $Limit, array());
 
       $Sender->SetData('Discussions', $Sender->DiscussionData, TRUE);
       $Sender->SetJson('Loading', $Offset . ' to ' . $Limit);
