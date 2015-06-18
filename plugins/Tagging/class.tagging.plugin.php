@@ -201,6 +201,9 @@ class TaggingPlugin extends Gdn_Plugin {
       $Sender->AnnounceData = $Offset == 0 ? $DiscussionModel->GetAnnouncements('') : FALSE;
       $Sender->SetData('Announcements', $Sender->AnnounceData !== FALSE ? $Sender->AnnounceData : array(), TRUE);
 
+      // On reset le filtre SQL pour la requête des discussions sinon ça ne filtre pas
+      $TagModel->SetTagSql($DiscussionModel->SQL, $Tag, $Limit, $Offset, $Sender->Request->Get('op', 'or'));
+      
       $Sender->DiscussionData = $DiscussionModel->Get($Offset, $Limit, array());
 
       $Sender->SetData('Discussions', $Sender->DiscussionData, TRUE);
