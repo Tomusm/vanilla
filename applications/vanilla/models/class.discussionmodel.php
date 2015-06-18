@@ -305,6 +305,9 @@ class DiscussionModel extends VanillaModel {
 
       $this->SQL->OrderBy($SortField, $SortDirection);
 
+      // Fix Toto: je rajoute distinct pour éviter les duplicatas
+      $this->SQL->Distinct(TRUE);
+
       // Set range and fetch
       $Data = $this->SQL->Get();
 
