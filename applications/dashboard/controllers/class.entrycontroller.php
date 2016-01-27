@@ -1615,7 +1615,6 @@ EOT;
                     $this->Form->addError($ex->getMessage());
                 }
                 if ($this->Form->errorCount() == 0) {
-                    $this->Form->addError('Success!');
                     $this->View = 'passwordrequestsent';
                     Logger::event(
                         'password_reset_request',
@@ -1713,11 +1712,7 @@ EOT;
                     '{username} has reset their password.',
                     array('UserName', $User->Name)
                 );
-                Gdn::session()->start($User->UserID, true);
-//            $Authenticator = Gdn::authenticator()->AuthenticateWith('password');
-//            $Authenticator->FetchData($Authenticator, array('Email' => $User->Email, 'Password' => $Password, 'RememberMe' => FALSE));
-//            $AuthUserID = $Authenticator->Authenticate();
-                redirect('/');
+                $this->View = 'passwordresetconfirm';
             }
         }
         $this->render();
