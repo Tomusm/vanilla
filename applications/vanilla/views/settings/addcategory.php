@@ -76,6 +76,7 @@ echo $this->Form->errors();
             ?>
         </li>
     <?php endif; ?>
+        <?php $this->fireEvent('AfterCategorySettings'); ?>
     <?php if (count($this->PermissionData) > 0) { ?>
         <li id="Permissions">
             <?php
